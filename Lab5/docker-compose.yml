@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  # C4/S1 - Ubuntu 22.10 (Cliente Y Servidor SSH)
+  c4:
+    build:
+      context: .
+      target: c4
+    container_name: C4
+    image: c4:ubuntu22.10-ssh-server-client
+    ports:
+      - "2222:22"
+    stdin_open: true
+    tty: true
+    networks:
+      ssh_network:
+        ipv4_address: 172.20.0.14
+    hostname: c4-server
+
+  # C1 - Ubuntu 16.10 (Solo Cliente SSH)
+  c1:
+    build:
+      context: .
+      target: c1
+    container_name: C1
+    image: c1:ubuntu16.10-ssh-client
+    stdin_open: true
+    tty: true
+    networks:
+      ssh_network:
+        ipv4_address: 172.20.0.11
+    hostname: c1-client
+    depends_on:
+      - c4
+
+  # C2 - Ubuntu 18.10 (Solo Cliente SSH)
+  c2:
+    build:
+      context: .
+      target: c2
+    container_name: C2
+    image: c2:ubuntu18.10-ssh-client
+    stdin_open: true
+    tty: true
+    networks:
+      ssh_network:
+        ipv4_address: 172.20.0.12
+    hostname: c2-client
+    depends_on:
+      - c4
+
+  # C3 - Ubuntu 20.10 (Solo Cliente SSH)
+  c3:
+    build:
+      context: .
+      target: c3
+    container_name: C3
+    image: c3:ubuntu20.10-ssh-client
+    stdin_open: true
+    tty: true
+    networks:
+      ssh_network:
+        ipv4_address: 172.20.0.13
+    hostname: c3-client
+    depends_on:
+      - c4
+
+networks:
+  ssh_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24

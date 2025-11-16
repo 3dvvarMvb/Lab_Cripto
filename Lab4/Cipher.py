@@ -149,10 +149,9 @@ def main():
             key,
             iv,
         )
+
     except ValueError as e:
         print(f"Error de validación: {e}")
-        return
-    
 
 if __name__ == "__main__":  
     main()
