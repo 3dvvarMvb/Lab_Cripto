@@ -10,12 +10,12 @@ LABEL name="C1" version="Ubuntu 16.10 - Cliente SSH"
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Configurar repositorios antiguos
+# Configurar repositorios antiguos (Correcto para esta versión)
 RUN sed -i -re 's/([a-z]{2}\.)?archive.ubuntu.com|security.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list
 
-# Instalar cliente OpenSSH
+# Instalar cliente OpenSSH y tcpdump
 RUN apt-get update && \
-    apt-get install -y openssh-client iputils-ping net-tools && \
+    apt-get install -y openssh-client iputils-ping net-tools tcpdump && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -31,12 +31,12 @@ LABEL name="C2" version="Ubuntu 18.10 - Cliente SSH"
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Configurar repositorios antiguos
+# Configurar repositorios antiguos (Correcto para esta versión)
 RUN sed -i -re 's/([a-z]{2}\.)?archive.ubuntu.com|security.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list
 
-# Instalar cliente OpenSSH
+# Instalar cliente OpenSSH y tcpdump
 RUN apt-get update && \
-    apt-get install -y openssh-client iputils-ping net-tools && \
+    apt-get install -y openssh-client iputils-ping net-tools tcpdump && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -52,12 +52,12 @@ LABEL name="C3" version="Ubuntu 20.10 - Cliente SSH"
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Configurar repositorios antiguos
+# Configurar repositorios antiguos (Correcto para esta versión)
 RUN sed -i -re 's/([a-z]{2}\.)?archive.ubuntu.com|security.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list
 
-# Instalar cliente OpenSSH
+# Instalar cliente OpenSSH y tcpdump
 RUN apt-get update && \
-    apt-get install -y openssh-client iputils-ping net-tools && \
+    apt-get install -y openssh-client iputils-ping net-tools tcpdump && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -73,8 +73,9 @@ LABEL name="C4/S1" version="Ubuntu 22.10 - Cliente y Servidor SSH"
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Configurar repositorios antiguos
+# --- FIX 1 (CORREGIDO): 22.10 es EOL no-LTS, por lo que USA 'old-releases' ---
 RUN sed -i -re 's/([a-z]{2}\.)?archive.ubuntu.com|security.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list
+
 
 # Instalar OpenSSH Server Y Cliente (ambos)
 RUN apt-get update && \
@@ -85,25 +86,27 @@ RUN apt-get update && \
     iputils-ping \
     net-tools \
     nano \
-    vim && \
+    vim \
+    tcpdump && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # Crear directorio necesario para SSH
 RUN mkdir -p /var/run/sshd
 
+# Generar las claves de host del servidor (sigue siendo necesario)
+RUN ssh-keygen -A
+
 # Crear usuario "prueba" con contraseña "prueba"
 RUN useradd -m -s /bin/bash prueba && \
     echo 'prueba:prueba' | chpasswd && \
     usermod -aG sudo prueba
 
-# Configurar SSH para permitir autenticación con contraseña
-RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config && \
-    sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config && \
-    sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config && \
-    echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config && \
-    echo 'PermitEmptyPasswords no' >> /etc/ssh/sshd_config && \
-    echo 'ChallengeResponseAuthentication no' >> /etc/ssh/sshd_config
+# Configurar SSH para permitir autenticación con contraseña (forma limpia)
+RUN sed -i 's/^#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config && \
+    sed -i 's/^PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config && \
+    sed -i 's/^#PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config && \
+    sed -i 's/^#ChallengeResponseAuthentication yes/ChallengeResponseAuthentication no/' /etc/ssh/sshd_config
 
 # Exponer puerto SSH
 EXPOSE 22

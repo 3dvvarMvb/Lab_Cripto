@@ -1,0 +1,37 @@
+Internet Protocol Version 6, Src: ::1, Dst: ::1
+Transmission Control Protocol, Src Port: 46892, Dst Port: 22, Seq: 42, Ack: 42, Len: 1504
+SSH Protocol
+    SSH Version 2 (encryption:chacha20-poly1305@openssh.com compression:none)
+        Packet Length: 1500
+        Padding Length: 4
+        Key Exchange (method:sntrup761x25519-sha512@openssh.com)
+            Message Code: Key Exchange Init (20)
+            Algorithms
+                Cookie: d61c0255b4070880713fde28adad8946
+                kex_algorithms length: 276
+                *kex_algorithms string: sntrup761x25519-sha512@openssh.com,curve25519-sha256,curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,diffie-hellman-group14-sha256,ext-info-c
+                server_host_key_algorithms length: 463
+                server_host_key_algorithms string [truncated]: ssh-ed25519-cert-v01@openssh.com,ecdsa-sha2-nistp256-cert-v01@openssh.com,ecdsa-sha2-nistp384-cert-v01@openssh.com,ecdsa-sha2-nistp521-cert-v01@openssh.com,sk-ssh-ed25519-cert-v01@openssh.com,
+                encryption_algorithms_client_to_server length: 108
+                *encryption_algorithms_client_to_server string: chacha20-poly1305@openssh.com,aes128-ctr,aes192-ctr,aes256-ctr,aes128-gcm@openssh.com,aes256-gcm@openssh.com
+                encryption_algorithms_server_to_client length: 108
+                encryption_algorithms_server_to_client string: chacha20-poly1305@openssh.com,aes128-ctr,aes192-ctr,aes256-ctr,aes128-gcm@openssh.com,aes256-gcm@openssh.com
+                mac_algorithms_client_to_server length: 213
+                *mac_algorithms_client_to_server string: umac-64-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@openssh.com,hmac-sha1-etm@openssh.com,umac-64@openssh.com,umac-128@openssh.com,hmac-sha2-256,hmac-sha2-512,hmac-sha1
+                mac_algorithms_server_to_client length: 213
+                mac_algorithms_server_to_client string [truncated]: umac-64-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@openssh.com,hmac-sha1-etm@openssh.com,umac-64@openssh.com,umac-128@openssh.com,hmac-sha2-2
+                compression_algorithms_client_to_server length: 26
+                *compression_algorithms_client_to_server string: none,zlib@openssh.com,zlib
+                compression_algorithms_server_to_client length: 26
+                compression_algorithms_server_to_client string: none,zlib@openssh.com,zlib
+                languages_client_to_server length: 0
+                languages_client_to_server string: 
+                languages_server_to_client length: 0
+                languages_server_to_client string: 
+                First KEX Packet Follows: 0
+                Reserved: 00000000
+                [hasshAlgorithms [truncated]: sntrup761x25519-sha512@openssh.com,curve25519-sha256,curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group16-sha512,diff]
+                [hassh: 78c05d999799066a2b4554ce7b1585a6]
+        Padding String: 00000000
+        Sequence number: 0
+    [Direction: client-to-server]
